@@ -2,7 +2,7 @@ const express = require('express');
 const Mollie = require('@mollie/api-client');
 
 const app = express();
-const port = 3000;
+const port = const port = process.env.PORT || 3000;;
 
 // 👉 DEIN API KEY HIER
 const mollie = Mollie({ apiKey: 'live_8B5g55vJSxFrpw24KHCVG2VCPbVgyK' });
