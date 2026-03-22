@@ -4,12 +4,10 @@ const { createMollieClient } = require('@mollie/api-client');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Mollie Client (API Key aus Railway)
 const mollie = createMollieClient({
   apiKey: process.env.MOLLIE_API_KEY
 });
 
-// Route zum Bezahlen
 app.get('/pay', async (req, res) => {
   try {
     const payment = await mollie.payments.create({
@@ -26,22 +24,19 @@ app.get('/pay', async (req, res) => {
     res.redirect(payment.getCheckoutUrl());
   } catch (error) {
     console.error(error);
-    res.send('Fehler');
+    res.status(500).send('Fehler');
   }
 });
 
-// Success Page
 app.get('/success', (req, res) => {
   res.send('Zahlung abgeschlossen!');
 });
 
-// Webhook
 app.post('/webhook', express.json(), (req, res) => {
   console.log('Webhook erhalten');
   res.sendStatus(200);
 });
 
-// Server starten
 app.listen(port, () => {
   console.log(`Server läuft auf Port ${port}`);
 });
