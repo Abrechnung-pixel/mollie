@@ -4,6 +4,7 @@ const { createMollieClient } = require('@mollie/api-client');
 const app = express();
 const port = process.env.PORT || 3000;
 
+console.log('KEY?', !!process.env.MOLLIE_API_KEY);
 const mollie = createMollieClient({
   apiKey: process.env.MOLLIE_API_KEY
 });
