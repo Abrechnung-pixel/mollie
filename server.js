@@ -1,12 +1,20 @@
 const express = require('express');
+
+console.log('PORT?', process.env.PORT);
+console.log('KEY?', !!process.env.MOLLIE_API_KEY);
+console.log('RAW KEY STARTS WITH live_?', String(process.env.MOLLIE_API_KEY || '').startsWith('live_'));
+
 const { createMollieClient } = require('@mollie/api-client');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-console.log('KEY?', !!process.env.MOLLIE_API_KEY);
 const mollie = createMollieClient({
   apiKey: process.env.MOLLIE_API_KEY
+});
+
+app.get('/', (req, res) => {
+  res.send('Server läuft');
 });
 
 app.get('/pay', async (req, res) => {
@@ -24,7 +32,7 @@ app.get('/pay', async (req, res) => {
 
     res.redirect(payment.getCheckoutUrl());
   } catch (error) {
-    console.error(error);
+    console.error('PAYMENT ERROR:', error);
     res.status(500).send('Fehler');
   }
 });
